@@ -1,0 +1,3 @@
+# algo
+
+Practicing basic algorithm 
