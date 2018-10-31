@@ -27,15 +27,25 @@ class BST
   end
 
   def find_2nd_largest(start_node)
-    # assumption that you start from the root
-    # using recursive - can also be done iteratively
-    # I am thinking may iteratively is better as I need to remember state.
+    # The assumption is: that start_node is the root of the tree.
+    # Use recursive approach - can also be done iteratively.
+    # Using the example, to find 2nd largest number
+    # - find the largest number first (right.node == null)
+    # - the 2nd largest would be either the parent of this max node if left.node == null
+    # - or the largest number on the left node of this largest number node
+    # Approach - we are keeping parent_node
+    #
+    # Time complexity: O(log n) as we are halving the search area in each level
+    # Space complexity: Possibly O(log n) as we are keeping variable in each level to keep track of the parent node
+
+    return start_node if !start_node.left && !start_node.right
+
     right_most, parent_node = right_most(start_node.right, start_node)
-    if parent_node.left == nil
+    if right_most.left == nil
       return parent_node
     else
-      right_most, parent_node = right_most(start_node.left)
-      return parent_node
+      right_most, parent_node = right_most(right_most.left, parent_node)
+      return right_most
     end
   end
 
@@ -49,12 +59,12 @@ end
 tree = BST.new
 tree.insert(10)
 tree.insert(20)
-tree.insert(15)
+#tree.insert(15)
 tree.insert(1)
-tree.insert(38)
-tree.insert(75)
-tree.insert(73)
-tree.insert(65)
+#tree.insert(38)
+#tree.insert(75)
+#tree.insert(73)
+#tree.insert(65)
 # p tree.inspect
 #    10
 #  1    20
