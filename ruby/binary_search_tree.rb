@@ -1,5 +1,5 @@
 class BST
-  attr_reader :nodes
+  attr_reader :nodes, :root
 
   class Node
     attr_reader :value, :left, :right
@@ -27,9 +27,10 @@ class BST
   end
 
   def find_2nd_largest(start_node)
+    # assumption that you start from the root
     # using recursive - can also be done iteratively
     # I am thinking may iteratively is better as I need to remember state.
-    right_most, parent_node = right_most(start_node)
+    right_most, parent_node = right_most(start_node.right, start_node)
     if parent_node.left == nil
       return parent_node
     else
@@ -54,13 +55,13 @@ tree.insert(38)
 tree.insert(75)
 tree.insert(73)
 tree.insert(65)
-p tree.inspect
+# p tree.inspect
 #    10
 #  1    20
 #     15  38
 #       65  75
 #         73
-p tree.find_2nd_largest(tree.root)
+p "2nd largest is #{tree.find_2nd_largest(tree.root).value}"
 
 # find the second largest value -> do I need to traverse the whole tree?
 # No, I only need to find the two rightmost.
