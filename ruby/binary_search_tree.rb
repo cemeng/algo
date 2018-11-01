@@ -1,22 +1,6 @@
 class BST
   attr_reader :nodes, :root
 
-  class Node
-    attr_reader :value, :left, :right
-
-    def initialize(value)
-      @value = value
-    end
-
-    def insert(new_value)
-      if new_value > @value
-        @right ? @right.insert(new_value) : (@right = Node.new(new_value))
-      else
-        @left ? @left.insert(new_value) : (@left = Node.new(new_value))
-      end
-    end
-  end
-
   def initialize
     @root = nil
   end
@@ -26,6 +10,7 @@ class BST
     @root.insert(value)
   end
 
+  # From interview cake
   def find_2nd_largest(start_node)
     # The assumption is: that start_node is the root of the tree.
     # Use recursive approach - can also be done iteratively.
@@ -54,27 +39,70 @@ class BST
     return node, parent_node
   end
 
+  def visit(node)
+    p "visiting #{node.value}"
+  end
+
+  def in_order_traversal(start_node)
+    in_order_traversal(start_node.left) if start_node.left
+    visit(start_node)
+    in_order_traversal(start_node.right) if start_node.right
+  end
+
+  def pre_order_traversal(start_node)
+    visit(start_node)
+    in_order_traversal(start_node.left) if start_node.left
+    in_order_traversal(start_node.right) if start_node.right
+  end
+
+  def post_order_traversal(start_node)
+    in_order_traversal(start_node.left) if start_node.left
+    in_order_traversal(start_node.right) if start_node.right
+    visit(start_node)
+  end
+
+  class Node
+    attr_reader :value, :left, :right
+
+    def initialize(value)
+      @value = value
+    end
+
+    def insert(new_value)
+      if new_value > @value
+        @right ? @right.insert(new_value) : (@right = Node.new(new_value))
+      else
+        @left ? @left.insert(new_value) : (@left = Node.new(new_value))
+      end
+    end
+  end
+
 end
 
 tree = BST.new
 tree.insert(10)
 tree.insert(20)
-#tree.insert(15)
+tree.insert(15)
 tree.insert(1)
-#tree.insert(38)
-#tree.insert(75)
-#tree.insert(73)
-#tree.insert(65)
-# p tree.inspect
-#    10
-#  1    20
-#     15  38
-#       65  75
-#         73
-p "2nd largest is #{tree.find_2nd_largest(tree.root).value}"
+tree.insert(38)
+tree.insert(75)
+tree.insert(73)
+tree.insert(65)
+puts "    10    "
+puts "   /  \\   "
+puts " 1     20 "
+puts "      /  \\"
+puts "    15    38"
+puts "         /  \\"
+puts "       65    75"
+puts "            /"
+puts "          73"
+# p "2nd largest is #{tree.find_2nd_largest(tree.root).value}"
 
-# find the second largest value -> do I need to traverse the whole tree?
-# No, I only need to find the two rightmost.
-# The pseudo code: I need to find the rightmost, when I found it I want to go up a parent and
-# traverse up until I have found a node that has left node and then I perform rightmost.
-# if the parent node doesn't have a left node, then it is the 2nd largest number.
+p "in order traversal"
+tree.in_order_traversal(tree.root)
+p "post order traversal"
+tree.post_order_traversal(tree.root)
+p "pre order traversal"
+tree.pre_order_traversal(tree.root)
+
