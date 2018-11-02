@@ -61,6 +61,10 @@ class BST
     visit(start_node)
   end
 
+  def depth_first_search(start_node)
+
+  end
+
   class Node
     attr_reader :value, :left, :right
 
@@ -68,6 +72,8 @@ class BST
       @value = value
     end
 
+    # This is what makes BST different to normal binary tree.
+    # In binary tree, you would have to specify whether to insert right or left.
     def insert(new_value)
       if new_value > @value
         @right ? @right.insert(new_value) : (@right = Node.new(new_value))
