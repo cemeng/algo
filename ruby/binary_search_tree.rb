@@ -51,13 +51,13 @@ class BST
 
   def pre_order_traversal(start_node)
     visit(start_node)
-    in_order_traversal(start_node.left) if start_node.left
-    in_order_traversal(start_node.right) if start_node.right
+    pre_order_traversal(start_node.left) if start_node.left
+    pre_order_traversal(start_node.right) if start_node.right
   end
 
   def post_order_traversal(start_node)
-    in_order_traversal(start_node.left) if start_node.left
-    in_order_traversal(start_node.right) if start_node.right
+    post_order_traversal(start_node.left) if start_node.left
+    post_order_traversal(start_node.right) if start_node.right
     visit(start_node)
   end
 
