@@ -15,25 +15,27 @@ def quick_sort(inputs)
   pivot = inputs[inputs.size-1]
   puts "pivot #{pivot}"
 
-  inputs.each_with_index do |i, idx|
-    if i > pivot
+  left_idx = 0
+  right_idx = inputs.size-1
+
+  while left_idx != right_idx - 1
+    puts "looping {pivot} : #{left_idx} #{right_idx}"
+    if inputs[left_idx] > pivot && inputs[right_idx] < pivot
       # swap
-      this_value = inputs[idx]
-      puts  "this value #{this_value}"
-      inputs[i] = pivot
-      inputs[inputs.size-1] = this_value
-      puts "swap happens, #{i}, #{idx}, #{this_value},#{inputs}"
-      # do this again
-      left = inputs[0..idx]
-      right = inputs[idx+1..inputs.size-1]
-      inputs = quick_sort(left) + quick_sort(right)
+      left_value = inputs[left_idx]
+      inputs[left_idx] = inputs[right_idx]
+      inputs[right_idx] = left_value
     end
-    if idx == inputs.size-1
-      # rightmost is the max already
-      inputs = quick_sort(inputs[0..inputs.size-2])
+    # already correct
+    if inputs[left_idx] < pivot
+      left_idx = left_idx + 1
+    end
+    if inputs[right_idx] > pivot
+      right_idx = right_idx - 1
     end
   end
-  inputs
+
+  (quick_sort(inputs[0..left_idx]) + quick_sort(inputs[left_idx+1..inputs.size-1])).flatten
 end
 
 puts "#{quick_sort([4,3,1,2,5,6])}"
